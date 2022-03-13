@@ -1,0 +1,175 @@
+{% extends "base.html" %}
+{% load static %}
+<html lang="en">
+<title>{%block title %}[homepage]{%endblock%}</title>
+{%block content%}
+<style>
+
+#Page-Div {
+    margin-top: 2em;
+    margin-left: 6em;
+    margin-right: 6em;
+    margin-bottom: 5rem;
+    display: grid;
+    gap: 2rem;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr))
+    display: flex;
+    flex-direction: column;
+}
+
+
+a {
+    text-decoration: none;
+    color: black;
+}
+
+/* Gsegment */
+
+.Gsegment-Div {
+}
+.Gsegment-Div:hover {
+    background-color: #dddddd;
+}
+
+.Gsegment-Thumbnail {
+    max-width: 100%;
+    max-height: 100%;
+    display: block;
+    aspect-ratio: 16/9;
+}
+.Gsegment-Title {
+    margin-left: 1em;
+    font-size: 2em;
+}
+.Gsegment-Summary {
+    margin-left: 1em;
+    font-size: 1em;
+}
+
+.Gsegment-Info1-Div {
+    display: flex;
+    flex-direction: row;
+}
+.Gsegment-Views {
+    margin-left: 1em;
+    width: 50%;
+    font-size: 1.5em;
+}
+.Gsegment-Pub_Date {
+    width: 50%;
+    font-size: 1.5em;
+}
+
+.Gsegment-Info2-Div {
+    display: flex;
+    flex-direction: row;
+}
+.Gsegment-Game {
+    margin-left: 1em;
+    width: 50%;
+    font-size: 1.5em;
+}
+.Gsegment-Creator {
+    width: 50%;
+    font-size: 1.5em;
+}
+
+/* Bottom Banner */
+
+.Bottom-Div-Cookie {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    flex-direction: row;
+    margin-top: 2rem;
+    padding: 2rem;
+    background-color: hsl(204, 100%, 30%);
+}
+
+.Bottom-Link {
+    color: hsl(204, 100%, 80%);
+    font-size: 1.5rem;
+    width: 15%;
+}
+
+.Bottom-Link-noflex {
+    color: hsl(204, 100%, 80%);
+    font-size: 1.5rem;
+    margin: 2rem;
+    margin-top: 2rem;
+}
+
+.Bottom-Info-Div {
+    width: 50%;
+    color: hsl(204, 100%, 80%);
+    font-size: 1.5rem;
+}
+
+#Bottom-Button-Div {
+    width: 30%;
+}
+
+#Bottom-Button {
+    width: 100%;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+    background-color: hsl(204, 100%, 50%);
+    color: white;
+    border: none;
+    font-size: 2rem;
+}
+#Bottom-Button:hover {
+    background-color: hsl(204, 100%, 80%);
+    color: black;
+}
+
+</style>
+<body>
+
+<div id="Page-Div">
+    {% for gsegment in recommended_gamesegments %}
+    <a href="/gamesegment={{gsegment.gamesegment_public_hash}}"><div class="Gsegment-Div">
+        <img class="Gsegment-Thumbnail" src="{% get_static_prefix %}{{gsegment.thumbnail}}">
+        <p class="Gsegment-Title">{{gsegment.title}}</p>
+        <p class="Gsegment-Summary">{{gsegment.summary}}</p>
+        <div class="Gsegment-Info1-Div">
+            <p class="Gsegment-Views">{{gsegment.views}} Views</p>
+            <p class="Gsegment-Pub_Date"> Published {{gsegment.pub_date}}</p>
+        </div>
+        <div class="Gsegment-Info2-Div">
+            <p class="Gsegment-Game">{{gsegment.genre}}</p>
+            <p class="Gsegment-Creator">By {{gsegment.game.account.username}}</p>
+        </div>
+    </div></a>
+
+    {% endfor %}
+
+    {% if agrees_to_cookies == False %}
+    <div class="Bottom-Div-Cookie">
+        <div class="Bottom-Info-Div">
+            <p style="margin-top: 0rem;">This website uses cookies to improve and personalise a user's experience</p>
+            <a class="Bottom-Link-noflex" href="/cookiepolicy">Cookie Policy</a>
+            <a class="Bottom-Link-noflex" href="/privacypolicy">Privacy Policy</a>
+        </div>
+        <div style="width: 20%;">
+        </div>
+        <form id="Bottom-Button-Div" action="" method="post">
+            {% csrf_token %}
+            <button type="submit" id="Bottom-Button" value="_agrees_to_cookies">I Accept</button>
+            <button type="submit" value="_placeholder" style="padding: 0rem; border:none;"></button>
+        </form>
+    </div>
+
+    {% endif %}
+</div>
+
+
+
+
+
+
+</body>
+{%endblock content%}
+</html>

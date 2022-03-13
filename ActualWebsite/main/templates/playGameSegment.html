@@ -1,0 +1,205 @@
+{% extends "base.html" %}
+<html lang="en">
+<title>{%block title %}{{gsegment.title}}{%endblock%}</title>
+{% load static %}
+{%block content%}
+<script>
+// user retention time javascript
+    document.addEventListener('visibilitychange', function() {
+    console.log(document.visibilityState);
+    if (document.visibilityState === 'visible') {
+    var userOnlineData = new FormData();
+    userOnlineData.append('csrfmiddlewaretoken', '{{csrf_token}}');
+    userOnlineData.append('userVisible', 5);
+    navigator.sendBeacon("{% url 'main:playGameSegment' gsegment.gamesegment_public_hash %}",userOnlineData)};
+  if (document.visibilityState === 'hidden') {
+    var userQuitData = new FormData();
+    userQuitData.append('csrfmiddlewaretoken', '{{csrf_token}}');
+    userQuitData.append('userHidden', 4);
+    navigator.sendBeacon("{% url 'main:playGameSegment' gsegment.gamesegment_public_hash %}",userQuitData);
+    }})
+</script>
+
+<style>
+
+/* Page */
+
+a {
+    text-decoration: none;
+    color: black;
+}
+
+#Page-Div {
+    display: flex;
+    flex-direction: row;
+    margin-left: 2rem;
+    margin-right: 2rem;
+    margin-bottom: 10rem;}
+
+/* Main */
+
+#Main-Div {
+    width: 75%;
+    display: flex;
+    flex-direction: column;
+}
+
+#Main-Bottom-Div {
+    display: flex;
+    flex-direction: column;
+}
+
+#Bottom-iframe-Div {
+    width: 100%;
+}
+
+#iframe {
+    max-width: 100%;
+    height: 100%;
+}
+
+#Bottom-LargeText-Div {
+    display: flex;
+    flex-direction: row;
+    font-size: 2.5rem;
+    margin-bottom: 0rem;
+    border-top: .1rem solid grey;
+
+}
+#Bottom-LargeText-Title {
+    width: 70%;
+    margin-bottom: .25rem;
+}
+#Bottom-LargeText-Genre {
+    width: 30%;
+    text-align: right;
+    margin-bottom: 0rem;
+}
+
+#Bottom-SmallText-Div {
+    display: flex;
+    flex-direction: row;
+    font-size: 1rem;
+    margin-top: 0rem;
+    border-bottom: .1rem solid grey;
+}
+#Bottom-SmallText-Views {
+    width: 20%;
+    margin-top: 0rem;
+}
+#Bottom-SmallText-PubDate {
+    width: 20%;
+    margin-top: 0rem;
+}
+
+#Bottom-Summary-Div {
+    display: flex;
+    flex-direction: column;
+    font-size: 1.5rem;
+}
+
+/* Sidebar */
+
+#Sidebar-Div {
+    width: 25%;
+    display: flex;
+    flex-direction: column;
+    margin-left: 2rem;
+}
+
+.Sidebar-Gsegment-Div {
+    display: flex;
+    flex-direction: column;
+    margin-top: .5rem;
+    margin-bottom: .5rem;
+}
+.Sidebar-Gsegment-Div:hover {
+    background-color: lightgrey;
+}
+
+.Sidebar-Thumbnail-Div {
+
+}
+.Sidebar-Thumbnail {
+    max-width: 100%;
+    height: auto;
+    aspect-ratio: 16/9;
+}
+
+.Sidebar-Text-Div {
+    margin-bottom: 0rem;
+    font-size: 1rem;
+}
+.Sidebar-Title {
+    font-size: 1.5rem;
+    margin-bottom: 0rem;
+}
+
+.Sidebar-SmallText-Div {
+    font-size: 1rem;
+    display: flex;
+    flex-direction: row;
+    margin-top: 0rem;
+}
+.Sidebar-SmallText-Views {
+    width: 40%;
+    margin-top: 0rem;
+}
+.Sidebar-SmallText-PubDate {
+    width: 60%;
+    text-align: right;
+    margin-top: 0rem;
+}
+
+</style>
+
+<body>
+
+    <div id="Page-Div">
+        <div id="Main-Div">
+            <div id="Main-Bottom-Div">
+                <div id="Bottom-iframe-Div">
+                    <iframe id="iframe" src="{{gsegment.html_file}}" scrolling="yes" title="{{gsegment.title}} actual file"></iframe>
+                </div>
+                <div id="Bottom-LargeText-Div">
+                    <p id="Bottom-LargeText-Title">{{gsegment.title}}</p>
+                    <p id="Bottom-LargeText-Genre">{{gsegment.genre}}</p>
+                </div>
+                <div id="Bottom-SmallText-Div">
+                    <p id="Bottom-SmallText-Views">{{gsegment.views}} views</p>
+                    <p id="Bottom-SmallText-PubDate">Published: {{gsegment.pub_date}}</p>
+                </div>
+                <div id="Bottom-Summary-Div">
+                    <p>By <a href="/user={{user.user_public_hash}}">{{gsegment.game.account}}</a></p>
+                    <p>Part of <a href="/game={{game.game_public_hash}}">{{gsegment.game.title}}</a></p>
+                    <p>{{gsegment.summary}}</p>
+                </div>
+            </div>
+        </div>
+        <div id="Sidebar-Div">
+            {% for gsegment in recommendedGsegments %}
+                <a href="/gamesegment={{gsegment.gamesegment_public_hash}}"><div class="Sidebar-Gsegment-Div">
+                    <div class="Sidebar-Thumbnail-Div">
+                        <img class="Sidebar-Thumbnail" src="{% get_static_prefix %}{{gsegment.thumbnail}}" alt="thumbnail">
+                    </div>
+                    <div class="Sidebar-Text-Div">
+                        <p class="Sidebar-Title">{{gsegment.title}}</p>
+                        <div class="Sidebar-SmallText-Div">
+                            <p class="Sidebar-SmallText-Views">{{gsegment.views}} views</p>
+                            <p class="Sidebar-SmallText-PubDate">Published: {{gsegment.pub_date}}</p>
+                        </div>
+                        <p>{{gsegment.genre}}</p>
+                        <p>Part of {{gsegment.game.title}}</p>
+                        <p>{{gsegment.summary}}</p>
+                        <p>By {{gsegment.game.account}}</p>
+
+                    </div>
+                </div></a>
+            {% endfor %}
+        </div>
+    </div>
+
+
+</body>
+{%endblock content%}
+</html>

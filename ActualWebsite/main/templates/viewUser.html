@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+{% load static %}
+<html lang="en">
+<title>{%block title %}{{account.username}}{%endblock%}</title>
+{%block content%}
+
+<style>
+a {
+    text-decoration: none;
+    color: black;
+}
+#Page-Div {
+    margin-left: 10em;
+    margin-right: 30em;
+}
+
+/* User Info */
+
+#User-Div {
+    display: flex;
+    flex-direction: row;
+    background-color: #dddddd;
+}
+#Account-UserPic-Div {
+    width: 20%;
+}
+#Account-UserPic {
+    border-radius: 50%;
+    width: 15em;
+    height: 15em;
+    background-size: cover;
+    background-position: center;
+    margin-top: 1em;
+    margin-bottom: 1em;
+    margin-left: 1em;
+}
+#User-Info-Div {
+    width: 80%;
+}
+#Account-Username {
+    font-size: 3.5em;
+    margin-left: 2em;
+}
+#Account-Date_joined {
+    font-size: 2em;
+    margin-left: 2em;
+}
+
+/* User Games */
+
+#User-Games-Div {
+    margin-top: 4em;
+    border-top: .25rem grey solid;
+    padding-top: 4rem;
+}
+.Game-Div {
+    display: flex;
+    flex-direction: column;
+
+    color: black;
+}
+.Game-Div:hover {
+    background-color: #dddddd;
+}
+.Game-Title {
+    font-size: 1.75em;
+    margin-left: 1.5em;
+}
+.Game-Summary {
+    font-size: 1em;
+    margin-left: 1em;
+}
+.Game-Pub_Date {
+    font-size: 1em;
+    margin-left: 1em;
+}
+
+</style>
+<body>
+
+
+    <div id="Page-Div">
+        <div id="User-Div">
+            <div id="Account-UserPic-Div">
+                <div id="Account-UserPic" style="background-image: url({% get_static_prefix %}{{account.user_picture}})"></div>
+            </div>
+            <div id="User-Info-Div">
+                <p id="Account-Username">{{account.username}}</p>
+                <p id="Account-Date_joined">Joined: {{account.date_joined}}</p>
+            </div>
+        </div>
+        <div id="User-Games-Div">
+            {% for game in accountGameList %}
+                <a href="/game={{game.game_public_hash}}"><div class="Game-Div">
+                    <p class="Game-Title">{{game.title}}</p>
+                    <p class="Game-Summary">{{game.summary}}</p>
+                    <p class="Game-Pub_Date">Published: {{game.pub_date}}</p>
+                </div></a>
+            {% endfor %}
+        </div>
+
+
+
+
+
+
+
+
+    </div>
+
+</body>
+{%endblock%}

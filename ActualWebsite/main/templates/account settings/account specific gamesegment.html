@@ -1,0 +1,95 @@
+{% extends "account settings/account base.html" %}
+{% load static %}
+<html lang="en">
+<title>{%block title %}{{account.username}} games{%endblock%}</title>
+{% load crispy_forms_tags %}
+
+<style>
+{% block meta %}
+
+/* Finish Gsegment */
+
+#Finish-Gsegment-Div {
+    margin: 4rem;
+}
+
+#Finish-Gsegment-Div button {
+    font-size: 2rem;
+    background-color: hsl(204, 100%, 80%);
+    color: hsl(204, 100%, 10%);
+    border-radius: 10%;
+    border-width: .25rem;
+    border-color: hsl(204, 100%, 20%);
+    padding: 2rem;
+    margin-top: 2rem;
+}
+#Finish-Gsegment-Div button:hover {
+    background-color: hsl(204, 100%, 90%);
+}
+
+/* Completed */
+
+#Completed-Page-Div {
+    margin: 2rem;
+}
+
+.Text {
+    font-size: 2rem;
+}
+
+.Completed-Thumbnail {
+    max-width: 100%;
+    max-height: 100%;
+    display: block;
+    aspect-ratio: 16/9;
+}
+
+{% endblock %}
+
+</style>
+{%block content%}
+
+
+
+
+
+    {% if gsegment.is_complete == False %}
+        <div id="Finish-Gsegment-Div">
+            <p>Finish Game Part:</p>
+            <form method="post" action="" enctype='multipart/form-data'>
+            {% csrf_token %}
+            {{ GsegmentForm|crispy }}
+            <input type="text" id="directories" name="directories" hidden />
+            <button type="submit">Create Game Part</button>
+            </form>
+        </div>
+    {% elif gsegment.is_complete == True %}
+        <div id="Completed-Page-Div">
+            <img class="Completed-Thumbnail" src="{% get_static_prefix %}{{gsegment.thumbnail}}">
+            <p class="Text">Title: {{gsegment.title}}</p>
+            <p class="Text">Summary: {{gsegment.summary}}</p>
+            <p class="Text">Views: {{gsegment.views}}</p>
+            <p class="Text">Average Retention Time: {{gsegment.average_retention_time}} Seconds</p>
+            <p class="Text">Genre: {{gsegment.genre}}</p>
+        </div>
+
+
+    {% endif %}
+
+<script>
+    files = document.querySelector("#id_folder").files; //this all makes it so that directories can actually work but beyond that idk
+    console.log('variable assignment worked')
+    document.querySelector("#id_folder").addEventListener("change", function() {
+       files = document.querySelector("#id_folder").files;
+       var directories = {}
+       for (var file of files) {
+         file.webkitRelativePath
+         directories[file.name] = file.webkitRelativePath
+       }
+       directories = JSON.stringify(directories);
+       document.querySelector("#directories").value = directories
+    });
+</script>
+
+{%endblock content %}
+</html>

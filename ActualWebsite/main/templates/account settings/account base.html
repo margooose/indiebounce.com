@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+{% load static %}
+
+<head>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/main_base.css' %}">
+    <meta charset="UTF-8" content="width=device-width, initial-scale=1">
+    <title>{%block title%}base template{%endblock%}</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<!-- favicon stuff -->
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="theme-color" content="#ffffff">
+
+
+<style>
+
+body {
+    background-color: #eeeeee;
+    font-family: Optima, sans-serif;
+    margin: 0rem;
+}
+
+a {
+    text-decoration: none;
+}
+
+#Top-Div {
+    background-color: hsl(204, 100%, 20%);
+    margin-top: 0rem;
+
+    display: flex;
+    flex-direction: row;
+}
+#Top-Div-x {
+    font-size: 3rem;
+    margin-left: 2rem;
+    margin-right: 0rem;
+    margin-top: .2rem;
+    margin-bottom: .2rem;
+    color: hsl(204, 100%, 80%);
+}
+#Top-Div-x:hover {
+    color: hsl(204, 100%, 90%);
+}
+
+#Top-Div-Logout {
+    font-size: 1.5rem;
+    position: absolute;
+    right: 0;
+    border: hsl(204, 100%, 80%) solid;
+    border-radius: 5%;
+    margin: .5rem;
+    color: hsl(204, 100%, 80%);
+    padding: .25rem;
+    transition: ease background 1s, ease color 1s;
+}
+#Top-Div-Logout:hover {
+    background: hsl(204, 100%, 80%);
+    color: hsl(204, 100%, 20%);
+}
+
+#Page-Div {
+    display: flex;
+    flex-direction: row;
+}
+
+#Sidebar-Div {
+    width: clamp(10%, 15%, 20%);
+    background-color: hsl(204, 100%, 30%);
+
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+}
+.Sidebar-Anchor {
+    text-align: center;
+    color: hsl(204, 100%, 80%);
+    margin: 2rem;
+    font-size: 1.5rem;
+}
+.Sidebar-Anchor:hover {
+    color: hsl(204, 100%, 90%);
+}
+
+#Content-Div {
+    width: 80%:
+}
+{% block meta %}
+
+{% endblock %}
+</style>
+</head>
+
+
+<body>
+
+    <div id="Top-Div">
+        <a id="Top-Div-x" href="/">x</a>
+        <a id="Top-Div-Logout" href="/logout">Logout</a>
+    </div>
+    <div id="Page-Div">
+        <div id="Sidebar-Div">
+            <a class="Sidebar-Anchor" href="/account">Profile</a>
+            <a class="Sidebar-Anchor" href="/account/games">Games</a>
+            <!--<a class="Sidebar-Anchor" href="account/billing">Billing</a>-->
+        </div>
+        <div id="Content-Div">
+            {% block content %}
+
+            {% endblock %}
+        </div>
+    </div>
+
+</body>
+
+
+
+
+
+
+
+</html>

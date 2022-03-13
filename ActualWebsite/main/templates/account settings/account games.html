@@ -1,0 +1,118 @@
+{% extends "account settings/account base.html" %}
+{% load static %}
+<html lang="en">
+<title>{%block title %}{{account.username}} games{%endblock%}</title>
+{% load crispy_forms_tags %}
+
+<style>
+{% block meta %}
+
+/* Game */
+
+.Game-Div {
+    margin: 1rem 1rem 0rem 2rem;
+    padding: 1rem;
+    background-color: #f9f9f9;
+    display: flex;
+    flex-direction: row;
+    width: 50rem;
+    height: 8rem;
+}
+
+.Game-Title {
+    width: 60%;
+    font-size: 2.5rem;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    padding-left: 10rem;
+    padding-right: 10rem;
+    color: black;
+}
+.Game-AddGsegment {
+    width: 20%;
+    font-size: 4rem;
+    background-color: hsl(120, 80%, 75%);
+    color: hsl(120, 100%, 20%);
+    border-radius: 10%;
+    border: .25rem solid hsl(120, 100%, 20%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.Game-AddGsegment:hover {
+    background-color: hsl(120, 50%, 65%);
+}
+
+.Game-DeleteGame {
+    width: 20%;
+    font-size: 4rem;
+    background-color: hsl(0, 80%, 75%);
+    color: hsl(0, 100%, 20%);
+    border-radius: 10%;
+    border-width: .25rem;
+    border-color: hsl(0, 100%, 20%);
+}
+.Game-DeleteGame:hover {
+    background-color: hsl(0, 50%, 65%);
+}
+
+/* New Game */
+
+#New-Game-Div {
+    margin: 8rem 0rem 0rem 2rem;
+}
+
+#New-Game-Title {
+    font-size: 2rem;
+}
+
+#New-Game-Button {
+    font-size: 2rem;
+    background-color: hsl(204, 100%, 80%);
+    color: hsl(204, 100%, 10%);
+    border-radius: 10%;
+    border-width: .25rem;
+    border-color: hsl(204, 100%, 20%);
+    padding: 2rem;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
+#New-Game-Button:hover {
+    background-color: hsl(204, 100%, 90%);
+}
+
+{% endblock %}
+
+</style>
+{%block content%}
+
+    {% for game in AccountGames %}
+
+        <form action="" method="post">
+            {% csrf_token %}
+            <div class="Game-Div">
+                <a class="Game-AddGsegment" href='/account/game={{game.game_public_hash}}#New-Gsegment-Header'>+</a>
+                <a href="/account/game={{game.game_public_hash}}"><p class="Game-Title">{{game.title}}</p></a>
+                <button class="Game-DeleteGame" type="submit" value="{{game.game_public_hash}}" name="_delete">-</button>
+            </div>
+        </form>
+    {% endfor %}
+    <div id="New-Game-Div">
+        <a href="/help/" id="New-Game-Title">Create A New Game:</a>
+        <form method="post" action="">
+            {%csrf_token%}
+
+            {{ GameForm|crispy }}
+            <button id="New-Game-Button" type="submit">Create Game</button>
+        </form>
+    </div>
+
+
+
+
+
+
+
+
+{%endblock content %}
+</html>

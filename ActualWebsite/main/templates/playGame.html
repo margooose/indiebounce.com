@@ -1,0 +1,170 @@
+{% extends "base.html" %}
+{% load static %}
+<html lang="en">
+<title>{%block title %}{{game.title}}{%endblock%}</title>
+{%block content%}
+<style>
+/* Outer */
+#Page-Div {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 10rem;
+}
+#Left-Blank-Div {
+    width: 5%;
+}
+#Main-Div {
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+}
+#Right-Blank-Div {
+    width: 5%;
+}
+
+/* Game Info */
+
+#Game-Info-Div {
+    display: flex;
+    flex-direction: row;
+}
+
+#Game-Description-Div {
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+}
+#Game-Title {
+
+    font-size: 4em;
+}
+#Game-Summary {
+
+    font-size: 2em;
+}
+
+#Game-Creator-Div {
+    width: 30%;
+    text-align: right;
+    text-decoration: none;
+    color: black;
+}
+#Game-Creator {
+    color: black;
+    font-size: 1.5em;
+}
+
+/* Gsegments */
+
+#Game-Gsegment-Div {
+    width: 70%;
+}
+.Gsegment-Div {
+    text-decoration: none;
+    color: black;
+    border: 1px;
+    border-style: solid;
+    display: flex;
+    flex-direction: row;
+
+}
+.Gsegment-Div:hover {
+    background-color: #dddddd;
+}
+a {
+    text-decoration: none;
+}
+:root {
+    counter-reset: headings;
+}
+.Gsegment-Number {
+    counter-increment: headings;
+    width: 5%;
+    text-align: center;
+    font-size: 3em;
+}
+.Gsegment-Number::before {
+    content: counter(headings);
+}
+.Gsegment-Thumbnail{
+    width: 30%;
+    aspect-ratio: 16/9;
+}
+.Gsegment-Text-Div {
+    width: 45%;
+    display: flex;
+    flex-direction: column;
+
+}
+.Gsegment-Empty-Div {
+    width: 20%
+}
+.Gsegment-Title {
+
+    text-align: center;
+    font-size: 2.5em;
+}
+.Gsegment-Summary {
+    margin-left: 1em;
+    font-size: 1.5em;
+}
+.Gsegment-Genre {
+    margin-left: 1em;
+    font-size: 1.75em;
+}
+.Gsegment-Stats-Div {
+    display: flex;
+    flex-direction: row;
+}
+.Gsegment-Views {
+    width: 30%;
+    margin-left: 1em;
+    font-size: 2em;
+}
+.Gsegment-Pub_Date {
+    width: 70%;
+    font-size: 2em;
+}
+
+
+</style>
+
+<body>
+    <div id="Page-Div">
+        <div id="Left-Blank-Div"></div>
+        <div id="Main-Div">
+            <div id="Game-Info-Div">
+                <div id="Game-Description-Div">
+                    <p id="Game-Title">{{game.title}}</p>
+                    <p id="Game-Summary">{{game.summary}}</p>
+                </div>
+                <div id="Game-Creator-Div">
+                    <a href="/user={{game.account.user_public_hash}}" id="Game-Creator">{{game.account}}</a>
+                </div>
+            </div>
+            <div id="Game-Gsegments-Div">
+                {% for gsegment in gameGsegments %}
+                    <a href="/gamesegment={{gsegment.gamesegment_public_hash}}"><div class="Gsegment-Div">
+                        <p class="Gsegment-Number"></p>
+                        <img class="Gsegment-Thumbnail" src="{% get_static_prefix %}{{gsegment.thumbnail}}" alt="thumbnail">
+                        <div class="Gsegment-Text-Div">
+                            <p class="Gsegment-Title">{{gsegment.title}}</p>
+                            <p class="Gsegment-Summary">{{gsegment.summary}}</p>
+                            <p class="Gsegment-Genre">{{gsegment.genre}}</p>
+                            <div class="Gsegment-Stats-Div">
+                                <p class="Gsegment-Views">{{gsegment.views}} Views</p>
+                                <p class="Gsegment-Pub_Date">Published: {{gsegment.pub_date}}</p>
+                            </div>
+
+                        </div>
+                        <div class="Gsegment-Empty-Div"></div>
+                    </div></a>
+                {% endfor %}
+
+            </div>
+        </div>
+        <div id="Right-Blank-Div"></div>
+    </div>
+</body>
+{%endblock content%}
+</html>

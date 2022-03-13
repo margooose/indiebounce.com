@@ -1,0 +1,143 @@
+{% extends "base.html" %}
+{% load static %}
+
+<html lang="en">
+<title>{%block title %}Recent Games{%endblock%}</title>
+
+{% block content %}
+<style>
+/* Main */
+#Page-Div {
+    display: flex;
+    flex-direction: row;
+    margin-top: 5em;
+    margin-bottom: 5rem;
+}
+#Left-Blank-Div {
+    width: 10%;
+}
+#Recent-Div {
+    width: 80%;
+}
+#Right-Blank-Div {
+    width: 10%;
+}
+
+a {
+    text-decoration: none;
+}
+/* Recent */
+#Page-Information {
+    font-size: 4em;
+    margin-bottom: 2em;
+}
+
+.Gsegment-Div {
+    text-decoration: none;
+    color: black;
+    margin-bottom: 2em;
+    display: flex;
+    flex-direction: row;
+}
+.Gsegment-Div:hover {
+    background-color: #dddddd;
+}
+
+.Gsegment-Thumbnail-Div {
+    width: 50%;
+}
+.Gsegment-Thumbnail {
+    max-width: 100%;
+    height: auto;
+    aspect-ratio: 16/9;
+}
+
+.Gsegment-Text-Div {
+    width: 40%;
+    display: flex;
+    flex-direction: column;
+
+}
+.Gsegment-Empty-Div {
+    width: 10%
+}
+.Gsegment-Title {
+    text-align: center;
+    font-size: 2.5em;
+}
+.Gsegment-Summary {
+    margin-left: 1em;
+    font-size: 1.5em;
+    margin-bottom: 4em;
+}
+.Meh-Info-Div {
+    display: flex;
+    flex-direction: row;
+}
+.Gsegment-Creator {
+    width: 50%;
+    font-size: 2em;
+    margin-left: 1em;
+    text-decoration: none;
+    color: black;
+}
+.Gsegment-Pub_Date {
+    width: 50%;
+    font-size: 2em;
+}
+.Good-Info-Div {
+    display: flex;
+    flex-direction: row;
+}
+.Gsegment-Views {
+    width: 30%;
+    margin-left: 1em;
+    font-size: 2em;
+}
+.Gsegment-Genre {
+    width: 70%;
+    font-size: 2em;
+}
+
+
+</style>
+<body>
+
+
+        <div id="Page-Div">
+            <div id="Left-Blank-Div"></div>
+
+            <div id="Recent-Div">
+                <div id="Page-Information">
+                    <p>Recently Published</p>
+                </div>
+                {% for gsegment in recentGsegments %}
+                    <a href="/gamesegment={{gsegment.gamesegment_public_hash}}"><div class="Gsegment-Div">
+                        <div class="Gsegment-Thumbnail-Div">
+                            <img class="Gsegment-Thumbnail" src="{% get_static_prefix %}{{gsegment.thumbnail}}" alt="thumbnail">
+                        </div>
+                        <div class="Gsegment-Text-Div">
+                            <p class="Gsegment-Title">{{gsegment.title}}</p>
+                            <p class="Gsegment-Summary">{{gsegment.summary}}</p>
+                            <div class="Meh-Info-Div">
+
+                                <p class="Gsegment-Creator">{{gsegment.game.account}}</p>
+                                <p class="Gsegment-Pub_Date">Published: {{gsegment.pub_date}}</p>
+                            </div>
+                            <div class="Good-Info-Div">
+                                <p class="Gsegment-Views">{{gsegment.views}} Views</p>
+                                <p class="Gsegment-Genre">{{gsegment.genre}}</p>
+                            </div>
+
+                        </div>
+                        <div class="Gsegment-Empty-Div"></div>
+                    </div></a>
+                {% endfor %}
+            </div>
+            <div id="Right-Blank-Div"></div>
+        </div>
+
+
+</body>
+{% endblock %}
+</html>

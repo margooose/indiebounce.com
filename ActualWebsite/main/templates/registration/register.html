@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+<html lang="en">
+<title>{%block title %}Register{%endblock%}</title>
+{% load crispy_forms_tags %}
+{%block content %}
+<style>
+form {
+    margin-left: 20rem;
+    margin-bottom: 40rem;
+}
+
+button {
+    font-size: 2rem;
+    background-color: hsl(204, 100%, 80%);
+    color: hsl(204, 100%, 10%);
+    border-radius: 10%;
+    border-width: .25rem;
+    border-color: hsl(204, 100%, 20%);
+    padding: 2rem;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
+
+button:hover {
+    background-color: hsl(204, 100%, 90%);
+}
+
+</style>
+<body>
+    <form method="post" action="">
+        {%csrf_token%}
+
+        {{ form|crispy }}
+        <button type="submit">Create Account</button>
+    </form>
+
+
+
+</body>
+{%endblock%}
+</html>
