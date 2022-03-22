@@ -7,6 +7,7 @@ from .fields import MultipleFilesField
 from django.forms import ModelForm
 from accounts.models import Account
 from django.core.validators import FileExtensionValidator
+from django.contrib.auth.forms import AuthenticationForm, UsernameField
 
 
 class RegisterForm(UserCreationForm):
@@ -17,9 +18,13 @@ class RegisterForm(UserCreationForm):
         fields = ["username", "email", "password1", "password2"]
 
 
+class LoginForm(AuthenticationForm): # not really sure how this works, but oh well.
+    username = UsernameField()
+
+
 class ProfilePictureForm(forms.Form):
 
-    user_picture = forms.ImageField()
+    user_picture = forms.ImageField(required=False)
 
 
 class GameCreationForm(ModelForm):

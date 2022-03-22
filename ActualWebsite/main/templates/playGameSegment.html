@@ -51,11 +51,14 @@ a {
 
 #Bottom-iframe-Div {
     width: 100%;
+    padding-bottom: 1rem;
+    border-bottom: .1rem solid grey;
 }
 
 #iframe {
     max-width: 100%;
     height: 100%;
+    margin-bottom: 1rem;
 }
 
 #Bottom-LargeText-Div {
@@ -63,8 +66,6 @@ a {
     flex-direction: row;
     font-size: 2.5rem;
     margin-bottom: 0rem;
-    border-top: .1rem solid grey;
-
 }
 #Bottom-LargeText-Title {
     width: 70%;
@@ -112,13 +113,14 @@ a {
     flex-direction: column;
     margin-top: .5rem;
     margin-bottom: .5rem;
+    background-color: #ffffff;
+    border-radius: 10%;
 }
 .Sidebar-Gsegment-Div:hover {
     background-color: lightgrey;
 }
 
 .Sidebar-Thumbnail-Div {
-
 }
 .Sidebar-Thumbnail {
     max-width: 100%;
@@ -133,6 +135,10 @@ a {
 .Sidebar-Title {
     font-size: 1.5rem;
     margin-bottom: 0rem;
+    text-align: center;
+}
+.Sidebar-Summary {
+    margin-left: 1rem;
 }
 
 .Sidebar-SmallText-Div {
@@ -140,6 +146,7 @@ a {
     display: flex;
     flex-direction: row;
     margin-top: 0rem;
+    text-align: center;
 }
 .Sidebar-SmallText-Views {
     width: 40%;
@@ -147,7 +154,6 @@ a {
 }
 .Sidebar-SmallText-PubDate {
     width: 60%;
-    text-align: right;
     margin-top: 0rem;
 }
 
@@ -163,7 +169,7 @@ a {
                 </div>
                 <div id="Bottom-LargeText-Div">
                     <p id="Bottom-LargeText-Title">{{gsegment.title}}</p>
-                    <p id="Bottom-LargeText-Genre">{{gsegment.genre}}</p>
+                    <p id="Bottom-LargeText-Genre"><a href="/genre={{gsegment.genre}}">{{gsegment.genre}}</a></p>
                 </div>
                 <div id="Bottom-SmallText-Div">
                     <p id="Bottom-SmallText-Views">{{gsegment.views}} views</p>
@@ -184,14 +190,16 @@ a {
                     </div>
                     <div class="Sidebar-Text-Div">
                         <p class="Sidebar-Title">{{gsegment.title}}</p>
+                        <p class="Sidebar-Summary">{{gsegment.summary}}</p>
+                        <div class="Sidebar-SmallText-Div">
+                            <p class="Sidebar-SmallText-Views">{{gsegment.game.account}}</p>
+                            <p class="Sidebar-SmallText-PubDate">{{gsegment.genre}}</p>
+                        </div>
                         <div class="Sidebar-SmallText-Div">
                             <p class="Sidebar-SmallText-Views">{{gsegment.views}} views</p>
-                            <p class="Sidebar-SmallText-PubDate">Published: {{gsegment.pub_date}}</p>
+                            <p class="Sidebar-SmallText-PubDate">{{gsegment.pub_date}}</p>
                         </div>
-                        <p>{{gsegment.genre}}</p>
-                        <p>Part of {{gsegment.game.title}}</p>
-                        <p>{{gsegment.summary}}</p>
-                        <p>By {{gsegment.game.account}}</p>
+
 
                     </div>
                 </div></a>

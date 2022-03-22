@@ -12,6 +12,7 @@ Known Bugs:
 *average views of a gamesegment are ONLY based on hidden statements, so it only really works for the first time someone tabs out of the website on page reload - fixed i think
 *cookie accept tag requires users to click it twice
 *when playing a gamesegment, that gamesegment can appear in the reccommend gsegments in the sidebar
+*the user_picture keeps saying 'form is invalid' or something when the form field is set to required=True but it somehow works with required=False
 
 
 

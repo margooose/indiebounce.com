@@ -1,82 +1,104 @@
 {% extends "base.html" %}
 {% load static %}
 <html lang="en">
-<title>{%block title %}[homepage]{%endblock%}</title>
+<title>{%block title %}IndieBounce{%endblock%}</title>
 {%block content%}
 <style>
 
+/* Main */
 #Page-Div {
-    margin-top: 2em;
-    margin-left: 6em;
-    margin-right: 6em;
-    margin-bottom: 5rem;
-    display: grid;
-    gap: 2rem;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr))
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    margin-top: 5em;
+    margin-bottom: 5rem;
 }
-
+#Left-Blank-Div {
+    width: 10%;
+}
+#Recent-Div {
+    width: 80%;
+}
+#Right-Blank-Div {
+    width: 10%;
+}
 
 a {
     text-decoration: none;
-    color: black;
+}
+/* Gsegment */
+#Page-Information {
+    font-size: 4em;
+    margin-bottom: 2em;
 }
 
-/* Gsegment */
-
 .Gsegment-Div {
+    text-decoration: none;
+    color: black;
+    margin-bottom: 2em;
+    display: flex;
+    flex-direction: row;
+    background-color: #ffffff;
+    border-radius: 10%;
 }
 .Gsegment-Div:hover {
     background-color: #dddddd;
 }
 
+.Gsegment-Thumbnail-Div {
+    width: 50%;
+}
 .Gsegment-Thumbnail {
     max-width: 100%;
-    max-height: 100%;
-    display: block;
+    height: 100%;
     aspect-ratio: 16/9;
 }
+
+.Gsegment-InfoMain-Div {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+}
 .Gsegment-Title {
-    margin-left: 1em;
-    font-size: 2em;
+    text-align: center;
+    font-size: 2.5em;
 }
 .Gsegment-Summary {
     margin-left: 1em;
-    font-size: 1em;
-}
-
-.Gsegment-Info1-Div {
-    display: flex;
-    flex-direction: row;
-}
-.Gsegment-Views {
-    margin-left: 1em;
-    width: 50%;
     font-size: 1.5em;
+    margin-bottom: 1em;
 }
-.Gsegment-Pub_Date {
-    width: 50%;
-    font-size: 1.5em;
-}
-
 .Gsegment-Info2-Div {
     display: flex;
     flex-direction: row;
 }
-.Gsegment-Game {
-    margin-left: 1em;
-    width: 50%;
-    font-size: 1.5em;
-}
 .Gsegment-Creator {
     width: 50%;
-    font-size: 1.5em;
+    font-size: 2em;
+    margin-left: 1em;
+    text-decoration: none;
+    color: black;
+}
+.Gsegment-Pub_Date {
+    width: 50%;
+    font-size: 2em;
+}
+.Gsegment-Info3-Div {
+    display: flex;
+    flex-direction: row;
+}
+.Gsegment-Views {
+    width: 30%;
+    margin-left: 1em;
+    font-size: 2em;
+}
+.Gsegment-Genre {
+    width: 70%;
+    font-size: 2em;
+    text-align: center;
 }
 
 /* Bottom Banner */
-
-.Bottom-Div-Cookie {
+#Bottom-Div-Cookie {
     position: fixed;
     bottom: 0;
     left: 0;
@@ -128,26 +150,41 @@ a {
 </style>
 <body>
 
-<div id="Page-Div">
-    {% for gsegment in recommended_gamesegments %}
-    <a href="/gamesegment={{gsegment.gamesegment_public_hash}}"><div class="Gsegment-Div">
-        <img class="Gsegment-Thumbnail" src="{% get_static_prefix %}{{gsegment.thumbnail}}">
-        <p class="Gsegment-Title">{{gsegment.title}}</p>
-        <p class="Gsegment-Summary">{{gsegment.summary}}</p>
-        <div class="Gsegment-Info1-Div">
-            <p class="Gsegment-Views">{{gsegment.views}} Views</p>
-            <p class="Gsegment-Pub_Date"> Published {{gsegment.pub_date}}</p>
-        </div>
-        <div class="Gsegment-Info2-Div">
-            <p class="Gsegment-Game">{{gsegment.genre}}</p>
-            <p class="Gsegment-Creator">By {{gsegment.game.account.username}}</p>
-        </div>
-    </div></a>
 
-    {% endfor %}
+
+    <div id="Page-Div">
+            <div id="Left-Blank-Div"></div>
+
+            <div id="Recent-Div">
+
+                {% for gsegment in recommended_gamesegments %}
+                    <a href="/gamesegment={{gsegment.gamesegment_public_hash}}"><div class="Gsegment-Div">
+                        <div class="Gsegment-Thumbnail-Div">
+                            <img class="Gsegment-Thumbnail" src="{% get_static_prefix %}{{gsegment.thumbnail}}" alt="thumbnail">
+                        </div>
+                        <div class="Gsegment-InfoMain-Div">
+                            <p class="Gsegment-Title">{{gsegment.title}}</p>
+                            <p class="Gsegment-Summary">{{gsegment.summary}}</p>
+                            <div class="Gsegment-Info2-Div">
+                                <p class="Gsegment-Creator">{{gsegment.game.account}}</p>
+                                <p class="Gsegment-Pub_Date">{{gsegment.pub_date}}</p>
+                            </div>
+                            <div class="Gsegment-Info3-Div">
+                                <p class="Gsegment-Views">{{gsegment.views}} Views</p>
+                                <p class="Gsegment-Genre">{{gsegment.genre}}</p>
+                            </div>
+
+                        </div>
+
+                    </div></a>
+                {% endfor %}
+            </div>
+            <div id="Right-Blank-Div"></div>
+        </div>
+
 
     {% if agrees_to_cookies == False %}
-    <div class="Bottom-Div-Cookie">
+    <div id="Bottom-Div-Cookie">
         <div class="Bottom-Info-Div">
             <p style="margin-top: 0rem;">This website uses cookies to improve and personalise a user's experience</p>
             <a class="Bottom-Link-noflex" href="/cookiepolicy">Cookie Policy</a>
@@ -157,13 +194,21 @@ a {
         </div>
         <form id="Bottom-Button-Div" action="" method="post">
             {% csrf_token %}
-            <button type="submit" id="Bottom-Button" value="_agrees_to_cookies">I Accept</button>
+            <button type="submit" id="Bottom-Button" value="_agrees_to_cookies" onclick="makeCookieBoxInvisible()">I Accept</button>
             <button type="submit" value="_placeholder" style="padding: 0rem; border:none;"></button>
         </form>
     </div>
 
+    <script>
+        function makeCookieBoxInvisible () {
+            document.getElementById('Bottom-Div-Cookie').style.visibility = "hidden"; //none of this seems to work
+            console.log('cookie box should now be hidden');
+            location.href = "/"
+        };
+    </script>
+
     {% endif %}
-</div>
+
 
 
 

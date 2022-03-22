@@ -3,23 +3,38 @@
 {% load static %}
 
 <head>
+
+
+    <!-- favicon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+
+
+
     <link rel="stylesheet" type="text/css" href="{% static 'css/main_base.css' %}">
     <meta charset="UTF-8" content="width=device-width, initial-scale=1">
     <title>{%block title%}base template{%endblock%}</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
-<!-- favicon stuff -->
-<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-<link rel="manifest" href="/site.webmanifest">
-<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
-<meta name="msapplication-TileColor" content="#da532c">
-<meta name="theme-color" content="#ffffff">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-L065MCM05E"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-L065MCM05E');
+</script>
+
 <style>
     /* General */
 body {
-    background-color: #eeeeee;
+    background-color: #f8f8fa;
     font-family: Optima, sans-serif;
     margin: 0rem;
 }
@@ -36,10 +51,17 @@ body {
     display: flex;
     flex-direction: row;
 }
+
+
 #Logo {
     text-align: center;
-     width: 94%;
+    width: 94%;
+    font-size: 4rem;
+    font-family: FreeMono, monospace;
+    text-decoration: none;
+    color: hsl(204, 100%, 50%);
 }
+
 #UserPic-Div {
     width: 6%;
 }
@@ -166,9 +188,10 @@ body {
 <div id="Base-Page-Div">
     <div id="Top-Bar-Div">
         <div id="Logo-UserPic-Div">
-            <a href="/" id="Logo">[logo]</a>
+
+            <a id="Logo" href="/">Indiebounce</a>
             {% if user.is_authenticated %}
-                {% if user.has_user_picture == False %} <!-- not sure if this if statement does anything -->
+                {% if user.has_user_picture == False %}
                     <a href="/account/" class="Top-Account-Anchor">Upload Profile Picture</a>
                 {% else %}
                 <div id="UserPic-Div">
@@ -267,3 +290,5 @@ function adventureDropdownFunction() {
       }
     }
 </script>
+
+

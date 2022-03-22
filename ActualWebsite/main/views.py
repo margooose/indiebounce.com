@@ -2,10 +2,8 @@ from django.shortcuts import render
 from django.core.files.storage import FileSystemStorage
 from django.http import HttpResponseRedirect, HttpResponse, HttpRequest, JsonResponse
 from django.contrib.auth import login, logout, authenticate
-from django.contrib.auth.forms import AuthenticationForm
-from django.views.generic.edit import FormView
 
-from .forms import GameCreationForm, GameSegmentCreationFormOne, GameSegmentCreationFormTwo, RegisterForm, ProfilePictureForm
+from .forms import GameCreationForm, GameSegmentCreationFormOne, GameSegmentCreationFormTwo, RegisterForm, ProfilePictureForm, LoginForm
 from .models import Game, GameSegment
 from accounts.models import Account
 import datetime
@@ -30,21 +28,21 @@ def home(request):
     # getting user recommended_gamesegments
     if request.user.is_authenticated:
         if request.user.preferred_genre is None:
-            recommended_gamesegments = GameSegment.objects.order_by('average_retention_time')[:10]
+            recommended_gamesegments = GameSegment.objects.filter(is_complete=True).order_by('average_retention_time')[:5]
 
         else:
             recommended_gamesegments = GameSegment.objects.filter(genre__startswith=request.user.preferred_genre).order_by(
-                '-average_retention_time')[:10]
+                '-average_retention_time')[:5]
 
     elif request.COOKIES.get('preferred_genre'):
         recommended_gamesegments = GameSegment.objects.filter(
-            genre__startswith=request.COOKIES.get('preferred_genre')).order_by('average_retention_time')[:10]
+            genre__startswith=request.COOKIES.get('preferred_genre')).order_by('average_retention_time')[:5]
 
         if recommended_gamesegments is None:
-            recommended_gamesegments = GameSegment.objects.order_by('average_retention_time')[:10]
+            recommended_gamesegments = GameSegment.objects.order_by('average_retention_time')[:5]
 
     else:
-        recommended_gamesegments = GameSegment.objects.order_by('average_retention_time')[:10]
+        recommended_gamesegments = GameSegment.objects.filter(is_complete=True).order_by('average_retention_time')[:5]
 
     # checks if user agrees to cookies
     if request.COOKIES.get('agrees_to_cookies'):
@@ -53,17 +51,10 @@ def home(request):
         agrees_to_cookies = False
         if request.method == 'POST':
             response = render(request, 'home.html', {'recommended_gamesegments': recommended_gamesegments, 'agrees_to_cookies': agrees_to_cookies})
-            response.set_cookie('agrees_to_cookies', 'agrees_to_cookies')
+            response.set_cookie('agrees_to_cookies', 'agrees_to_cookies', secure=True, samesite='Strict', httponly=True)
             return response
 
-    if request.method == "POST":
 
-        request_scrollbar_location = request.POST.get('scrollbar_location', None)
-
-        if request_scrollbar_location == 'commence_':
-            pass
-
-        return JsonResponse(request_scrollbar_location)
 
     context = {'recommended_gamesegments': recommended_gamesegments, 'agrees_to_cookies': agrees_to_cookies}
     return render(request, 'home.html', context)
@@ -90,6 +81,7 @@ def account(request):
 
         form = ProfilePictureForm(request.POST and request.FILES or None)
         if request.method == 'POST':
+            print("seems form isn't valid")
             if form.is_valid():
 
                 user_picture = request.FILES.get('user_picture')
@@ -154,7 +146,9 @@ def accountSpecificGame(request, game_public_hash):
                 if GsegmentForm.is_valid():
                     gsegment = GsegmentForm.save(commit=False)
                     gsegment.game = game
-                    gsegment.gamesegment_public_hash = gsegment.get_user_public_hash()
+
+                    gsegment.save()
+                    gsegment.gamesegment_public_hash = gsegment.get_user_public_hash()  # for whatever reason this has to between the two
                     gsegment.save()
 
                     directory_name = gsegment.pk
@@ -178,7 +172,7 @@ def accountSpecificGameSegment(request, gamesegment_public_hash):
     if request.user.is_authenticated:
         account = request.user
         gsegment = GameSegment.objects.get(gamesegment_public_hash=gamesegment_public_hash)
-        if gsegment.game.account != request.user:
+        if gsegment.game.account != request.user:  # breaks when changed it to 'is not'
             return HttpResponseRedirect(redirect_to='/')
 
         else:
@@ -205,7 +199,7 @@ def accountSpecificGameSegment(request, gamesegment_public_hash):
 
                     gsegment.save()
 
-                    return HttpResponseRedirect(redirect_to='')
+                    return HttpResponseRedirect(redirect_to='/recent/')
 
             context = {'account': account, 'gsegment': gsegment, 'GsegmentForm': GsegmentForm}
             return render(request, 'account settings/account specific gamesegment.html', context)
@@ -235,7 +229,7 @@ def register(request):
 
 
 def loginUser(request):
-    form = AuthenticationForm(data=request.POST or None)
+    form = LoginForm(data=request.POST or None)
     if request.method == 'POST':
         if form.is_valid():
 
@@ -310,7 +304,7 @@ def playGameSegment(request, gamesegment_public_hash):
 
 
 def recent(request):
-    recentGsegments = GameSegment.objects.order_by('-pub_date')[:10]
+    recentGsegments = GameSegment.objects.order_by('-pub_date')[:5]
 
     context = {'recentGsegments': recentGsegments}
     return render(request, 'genres/recent.html', context)
@@ -318,7 +312,7 @@ def recent(request):
 
 def SpecificGenre(request, genre):
     genre = genre
-    genreGsegments = GameSegment.objects.filter(genre__startswith=genre).order_by('-views')[:10]
+    genreGsegments = GameSegment.objects.filter(genre__startswith=genre).order_by('-views')[:5]
 
     context = {'genreGsegments': genreGsegments, 'genre': genre}
     return render(request, 'genres/specificGenre.html', context)

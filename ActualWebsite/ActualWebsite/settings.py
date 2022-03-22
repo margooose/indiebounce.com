@@ -19,7 +19,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-fn3s3o-g9%kh^678g63hg=r!q(6f5sx$70o4f&zb^b$3$&vvk0'
+SECRET_KEY = 'django-insecure-fn3s3o-g9%kh^678g63hg=r!q(6f5sx$70o4f&zb^b$3$&vvk0' # change
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -28,6 +28,8 @@ ALLOWED_HOSTS = [
     '.indiebounce.com',
     '198.211.102.128',
     'localhost',
+    'www.indiebounce.com',
+    '127.0.0.1',
                  ]
 
 # Application definition
@@ -95,13 +97,13 @@ DATABASES = {
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        #'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
     },
     {
         'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
     },
     {
-        #'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',  # should get rid of this
+        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',  # should get rid of this
     },
     {
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
@@ -122,7 +124,9 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
+
+#STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 
 MEDIA_URL = '/images/'
 

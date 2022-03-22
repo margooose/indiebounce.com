@@ -12,7 +12,7 @@
 .Game-Div {
     margin: 1rem 1rem 0rem 2rem;
     padding: 1rem;
-    background-color: #f9f9f9;
+    background-color: #ffffff;
     display: flex;
     flex-direction: row;
     width: 50rem;
@@ -98,7 +98,7 @@
         </form>
     {% endfor %}
     <div id="New-Game-Div">
-        <a href="/help/" id="New-Game-Title">Create A New Game:</a>
+        <a href="/help/" id="New-Game-Title" target="_blank" rel="noopener noreferrer">Create A New Game:</a>
         <form method="post" action="">
             {%csrf_token%}
 

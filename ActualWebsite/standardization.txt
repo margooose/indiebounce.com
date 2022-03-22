@@ -1,0 +1,38 @@
+Standardization of gamesegment lists:
+
+    Must Include:
+    - thumbnail
+    - title
+    - summary (to a certain character limit)
+    - genre
+    - view count
+    - publish date (Month, year)
+    - user
+    - game
+
+    Optional (depending on area):
+    - average retention rate
+    - game number
+
+    Should Look Like (in large list):
+    thumbnail         |         Title (along with a dropdown menu showing game)
+    thumbnail (cont.) | Summary
+    thumbnail (cont.) | user               Genre
+    thumbnail (cont.) | views            Publish Date
+
+    Should Look Like (in small list):
+    thumbnail
+    thumbnail (cont.)
+    thumbnail (cont.)
+    ___________________
+    Title
+    Summmary
+    user            Genre
+    Views        Publish Date
+
+
+    Notes:
+    - gamesegment width and height should all be the same, regardless of thumbnail width and height
+    - probably shouldn't have a border
+    - however, might want to make background slightly different then gsegment background, say, grey and white
+    - on hover, should offer colored buttons as options, rather than changing background color

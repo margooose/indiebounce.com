@@ -84,12 +84,12 @@ class GameSegment(models.Model):
     ]
 
     def get_upload_location(self, filename):
-        username_str = f'accounts/{str(self.game.account.password)}/{str(self.game.pk)}/{str(self.pk)}/{filename}'
+        username_str = f'accounts/{str(self.game.account.pk)}/{str(self.game.pk)}/{str(self.pk)}/{filename}'
         return username_str
 
     def get_user_public_hash(self):  # change variable names
         str_pk_encoded = (str(self.pk)).encode()
-        user_pk_hashed = hashlib.sha1(str_pk_encoded, usedforsecurity=True)
+        user_pk_hashed = hashlib.sha224(str_pk_encoded, usedforsecurity=True)
         user_public_hash = user_pk_hashed.hexdigest()
         return user_public_hash
 

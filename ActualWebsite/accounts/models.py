@@ -39,7 +39,7 @@ class Account(AbstractBaseUser):
 
     #  required stuff
     email = models.EmailField(verbose_name='email', unique=True)
-    username = models.CharField(max_length=99, unique=True)
+    username = models.CharField(max_length=99, unique=True) # custom field i think
     date_joined = models.DateTimeField(verbose_name='date joined', auto_now_add=True)
     last_login = models.DateTimeField(verbose_name='last login', auto_now=True)
     is_admin = models.BooleanField(default=False)
@@ -49,7 +49,7 @@ class Account(AbstractBaseUser):
 
     #  non-required stuff
     def get_upload_location(self, filename):
-        username_str = f'accounts/{str(self.password)}/{filename}'
+        username_str = f'accounts/{str(self.pk)}/{filename}'
         return username_str
 
     def get_user_public_hash(self):
@@ -64,8 +64,8 @@ class Account(AbstractBaseUser):
     user_public_hash = models.CharField(max_length=100, default=None, blank=True, null=True)
 
     # more required stuff
-    USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['username']
+    USERNAME_FIELD = 'username'
+    REQUIRED_FIELDS = ['email']
 
     objects = MyAccountManager()
 
