@@ -19,10 +19,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-fn3s3o-g9%kh^678g63hg=r!q(6f5sx$70o4f&zb^b$3$&vvk0' # change
+SECRET_KEY = 'django-insecure-fn3s3o-g9%kh^678g63hg=r!q(6f5sx$70o4f&zb^b$3$&vvk0' # config("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = True # False
 
 ALLOWED_HOSTS = [
     '.indiebounce.com',
@@ -83,10 +83,10 @@ WSGI_APPLICATION = 'ActualWebsite.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'ActualWebsite_db',
-        'USER': 'postgres',
-        'PASSWORD': 'marcushenham0202007',
+        'ENGINE': 'django.db.backends.postgresql', # django.db.backends.postgresql_psycopg2
+        'NAME': 'ActualWebsite_db', #indiebounce
+        'USER': 'postgres', #marcuspenguin
+        'PASSWORD': 'marcushenham0202007', #marcushenham02007
         'HOST': 'localhost',
         'PORT': '5432',
     }

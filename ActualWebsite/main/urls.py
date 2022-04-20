@@ -4,6 +4,8 @@ app_name = 'main'
 # we start our views here in urls, passes to views
 urlpatterns = [
 
+    path('game/', views.game, name='game'),
+
     # main
     path('', views.home, name="home"),
     path('game=<str:game_public_hash>/', views.playGame, name="playGame"),
@@ -16,6 +18,7 @@ urlpatterns = [
     path('help/', views.help, name="help"),
     path('cookiepolicy', views.cookiePolicy, name="cookiePolicy"),
     path('privacypolicy/', views.privacyPolicy, name="privacyPolicy"),
+    path('updatelog/', views.updateLog, name='updateLog'),
 
     # account
     path('account/', views.account, name="account"),

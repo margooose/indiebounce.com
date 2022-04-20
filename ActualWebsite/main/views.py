@@ -4,7 +4,7 @@ from django.http import HttpResponseRedirect, HttpResponse, HttpRequest, JsonRes
 from django.contrib.auth import login, logout, authenticate
 
 from .forms import GameCreationForm, GameSegmentCreationFormOne, GameSegmentCreationFormTwo, RegisterForm, ProfilePictureForm, LoginForm
-from .models import Game, GameSegment
+from .models import Game, GameSegment, UpdateLog
 from accounts.models import Account
 import datetime
 import os
@@ -22,6 +22,10 @@ def get_time_in_seconds():
 
 
 # Create your views here.
+
+def game(request):
+    return render(request, 'game.html', {})
+
 
 def home(request):
 
@@ -54,8 +58,6 @@ def home(request):
             response.set_cookie('agrees_to_cookies', 'agrees_to_cookies', secure=True, samesite='Strict', httponly=True)
             return response
 
-
-
     context = {'recommended_gamesegments': recommended_gamesegments, 'agrees_to_cookies': agrees_to_cookies}
     return render(request, 'home.html', context)
 
@@ -73,6 +75,13 @@ def cookiePolicy(request):
 def privacyPolicy(request):
     context = {}
     return render(request, 'documentation/privacyPolicy.html', context)
+
+
+def updateLog(request):
+    update_log_list = UpdateLog.objects.order_by('-pub_date')[:5]
+
+    context = {'update_log_list': update_log_list}
+    return render(request, 'documentation/updateLog.html', context)
 
 
 def account(request):

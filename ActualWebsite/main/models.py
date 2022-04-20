@@ -4,6 +4,7 @@ from accounts.models import Account
 from django.core.validators import FileExtensionValidator
 import hashlib
 
+
 class Game(models.Model):
     STR = 'Strategy'
     ACT = 'Action'
@@ -131,4 +132,13 @@ class GameSegment(models.Model):
         all_session_times.append(int(smol_value))
         return sum(all_session_times) / len(all_session_times)
 
+
+class UpdateLog(models.Model):
+
+    title = models.CharField(max_length=64)
+    text = models.CharField(max_length=4096)
+    pub_date = models.DateField(default=django.utils.timezone.now)
+
+    def __int__(self):
+        return self.pk
 
